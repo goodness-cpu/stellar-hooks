@@ -234,6 +234,8 @@ The library ships with `@stellar/stellar-sdk` v13 and `@stellar/freighter-api` v
 4. Edit hooks in `src/hooks/`, types in `src/types/`
 5. Open a PR
 
+Please review our Contributing Guide and Code of Conduct for more details before opening a pull request.
+
 ---
 
 ## Roadmap

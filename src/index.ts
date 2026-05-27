@@ -8,6 +8,9 @@ export { useStellarBalance } from "./hooks/useStellarBalance";
 export { useSorobanContract } from "./hooks/useSorobanContract";
 export { useTransaction } from "./hooks/useTransaction";
 export { useLedgerEntry } from "./hooks/useLedgerEntry";
+export { useStellarToml } from "./hooks/useStellarToml";
+export { useAssetMetadata } from "./hooks/useAssetMetadata";
+export { useStellarOffers } from "./hooks/useStellarOffers";
 export { usePathPayment } from "./hooks/usePathPayment";
 export type {
   PathPaymentAsset,
@@ -39,6 +42,11 @@ export type {
   StellarProviderProps,
   StellarContextValue,
 } from "./types";
+
+// Hook-specific Types
+export type { StellarTomlData, UseStellarTomlReturn } from "./hooks/useStellarToml";
+export type { AssetMetadata, UseAssetMetadataReturn } from "./hooks/useAssetMetadata";
+export type { UseStellarOffersOptions, UseStellarOffersReturn } from "./hooks/useStellarOffers";
 
 // Network presets (useful for custom configs)
 export { NETWORK_CONFIGS } from "./types";
