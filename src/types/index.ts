@@ -1,4 +1,4 @@
-import type { Horizon, rpc } from "@stellar/stellar-sdk";
+import type { Horizon, SorobanRpc } from "@stellar/stellar-sdk";
 
 // ─── Network ──────────────────────────────────────────────────────────────────
 
@@ -11,6 +11,47 @@ export interface NetworkConfig {
   /** Soroban RPC endpoint */
   sorobanRpcUrl: string;
   /** Network passphrase */
+  networkPassphrase: string;
+}
+
+/**
+ * Endpoint configuration for a private or self-hosted Stellar network.
+ *
+ * Pass this object to the `customConfig` prop when {@link StellarProviderProps.network}
+ * is `"custom"`.
+ *
+ * @example
+ * ```tsx
+ * <StellarProvider
+ *   network="custom"
+ *   customConfig={{
+ *     network: "custom",
+ *     horizonUrl: "https://my-horizon.example.com",
+ *     sorobanRpcUrl: "https://my-rpc.example.com",
+ *     networkPassphrase: "My Network ; 2024",
+ *   }}
+ * >
+ *   ...
+ * </StellarProvider>
+ * ```
+ */
+export interface CustomNetworkConfig {
+  /** Must be `"custom"` when supplying a custom network configuration. */
+  network: "custom";
+  /**
+   * Horizon REST API base URL for this network.
+   * @example "https://my-horizon.example.com"
+   */
+  horizonUrl: string;
+  /**
+   * Soroban RPC endpoint URL for contract simulation and submission.
+   * @example "https://my-rpc.example.com"
+   */
+  sorobanRpcUrl: string;
+  /**
+   * Stellar network passphrase used when signing transactions.
+   * @example "My Network ; 2024"
+   */
   networkPassphrase: string;
 }
 
@@ -42,6 +83,8 @@ export interface StellarAccountData {
   balances: StellarBalance[];
   sequence: string;
   subentryCount: number;
+  numSponsored: number;
+  numSponsoring: number;
   thresholds: {
     lowThreshold: number;
     medThreshold: number;
@@ -137,14 +180,20 @@ export interface ContractCallOptions<TResult = any> {
 }
 
 export interface UseContractCallReturn<TResult = unknown> extends TransactionState<TResult> {
-  call: (overrides?: Partial<ContractCallOptions<TResult>>) => Promise<TResult | null>;
+  call: (overrides?: Partial<ContractCallOptions>) => Promise<TResult | null>;
+  /**
+   * Perform an isolated simulation of the contract call.
+   * Returns the raw RPC simulation response including footprint, resource usage, and results.
+   * Does not sign or submit a transaction.
+   */
+  simulate: (overrides?: Partial<ContractCallOptions>) => Promise<SorobanRpc.Api.SimulateTransactionResponse>;
   reset: () => void;
 }
 
 // ─── Ledger Entry ─────────────────────────────────────────────────────────────
 
 export interface LedgerEntryState {
-  data: rpc.Api.LedgerEntryResult | null;
+  data: SorobanRpc.Api.LedgerEntryResult | null;
   isLoading: boolean;
   error: Error | null;
   refetch: () => Promise<void>;
@@ -154,9 +203,13 @@ export interface LedgerEntryState {
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
 export interface StellarProviderProps {
+  /** Built-in preset (`testnet`, `mainnet`, `futurenet`) or `"custom"` for a private network. @default "testnet" */
   network?: StellarNetwork;
-  /** Supply a full config when network === "custom" */
-  customConfig?: NetworkConfig;
+  /**
+   * Required when `network` is `"custom"`. Describes Horizon, Soroban RPC, and the
+   * network passphrase for your deployment.
+   */
+  customConfig?: CustomNetworkConfig;
   children: React.ReactNode;
 }
 
