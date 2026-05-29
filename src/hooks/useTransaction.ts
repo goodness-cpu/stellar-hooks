@@ -22,6 +22,26 @@ export interface UseTransactionOptions {
   onError?: (error: Error) => void;
 }
 
+/**
+ * @example
+ * ```tsx
+ * const {
+ *   submit,    // (signedXdr: string) => Promise<void>
+ *   status,    // "idle" | "submitting" | "polling" | "success" | "error"
+ *   hash,      // string | null — transaction hash on success
+ *   isLoading, // boolean
+ *   isSuccess, // boolean
+ *   isError,   // boolean
+ *   error,     // Error | null
+ *   reset,     // () => void
+ * } = useTransaction({ mode: "classic" });
+ *
+ * async function handleSend() {
+ *   const signedXdr = await freighter.signTransaction(builtXdr);
+ *   await submit(signedXdr);
+ * }
+ * ```
+ */
 export interface UseTransactionReturn extends TransactionState {
   submit: (signedXdr: string) => Promise<void>;
   reset: () => void;
