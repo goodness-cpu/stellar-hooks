@@ -24,12 +24,10 @@ vi.mock("react", async () => {
 
 const mockGetEvents = vi.fn();
 
-vi.mock("@stellar/stellar-sdk", () => ({
-  rpc: {
-    Server: vi.fn().mockImplementation(() => ({
-      getEvents: mockGetEvents,
-    })),
-  },
+vi.mock("@stellar/stellar-sdk/rpc", () => ({
+  Server: vi.fn().mockImplementation(() => ({
+    getEvents: mockGetEvents,
+  })),
 }));
 
 // ─── Mock context ─────────────────────────────────────────────────────────────
