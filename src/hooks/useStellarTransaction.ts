@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Horizon, TransactionBuilder, Operation } from "@stellar/stellar-sdk";
+import { Horizon, Transaction, TransactionBuilder, xdr } from "@stellar/stellar-sdk";
 import { useStellarContext } from "../context";
 import { useFreighter } from "./useFreighter";
 import { useTransaction } from "./useTransaction";
@@ -21,7 +21,7 @@ export interface UseStellarTransactionOptions {
 }
 
 export interface UseStellarTransactionReturn {
-  submit: (operations: Operation[]) => Promise<void>;
+  submit: (operations: xdr.Operation[]) => Promise<void>;
   status: TransactionStatus;
   txHash: string | null;
   isLoading: boolean;
@@ -42,7 +42,7 @@ export function useStellarTransaction(options: UseStellarTransactionOptions = {}
     ...(onError && { onError }),
   });
 
-  const submit = useCallback(async (operations: Operation[]) => {
+  const submit = useCallback(async (operations: xdr.Operation[]) => {
     if (!publicKey) throw new Error("Freighter is not connected. Call connect() first.");
 
     const server = new Horizon.Server(config.horizonUrl);
@@ -66,7 +66,7 @@ export function useStellarTransaction(options: UseStellarTransactionOptions = {}
       const feeBumpTx = TransactionBuilder.buildFeeBumpTransaction(
         sponsorAddress,
         feeBump.fee,
-        innerTxSigned as any,
+        innerTxSigned as Transaction,
         config.networkPassphrase
       );
       

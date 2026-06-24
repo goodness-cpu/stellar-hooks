@@ -6,7 +6,6 @@
 
 import { useCallback, useReducer } from "react";
 import {
-  Asset,
   Horizon,
   Operation,
   TransactionBuilder,
@@ -71,6 +70,11 @@ export interface UseClaimableBalancesReturn extends ClaimableBalancesState {
  * return <button onClick={() => claim(balance.id)}>Claim</button>;
  * ```
  */
+export interface UseClaimBalanceOptions {
+  onSuccess?: (hash: string) => void;
+  onError?: (error: Error) => void;
+}
+
 export interface UseClaimBalanceReturn {
   claim: (balanceId: string) => Promise<void>;
   status: TransactionStatus;
