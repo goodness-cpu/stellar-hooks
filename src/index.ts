@@ -59,6 +59,12 @@ export type {
   UseTradeReturn,
 } from "./hooks/useTrade";
 
+export { useAccountMerge } from "./hooks/useAccountMerge";
+export type {
+  UseAccountMergeOptions,
+  UseAccountMergeReturn,
+} from "./hooks/useAccountMerge";
+
 export { useSorobanTokenBalance } from "./hooks/useSorobanTokenBalance";
 export { useWalletConnect } from "./hooks/useWalletConnect";
 export type {

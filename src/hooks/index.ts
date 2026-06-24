@@ -63,6 +63,12 @@ export type {
   UseAccountFlagsReturn,
 } from "./useAccountFlags";
 
+export { useAccountMerge } from "./useAccountMerge";
+export type {
+  UseAccountMergeOptions,
+  UseAccountMergeReturn,
+} from "./useAccountMerge";
+
 export { useSorobanTokenBalance } from "./useSorobanTokenBalance";
 export type {
   SorobanTokenBalanceState,
