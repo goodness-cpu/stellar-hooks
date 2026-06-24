@@ -60,5 +60,7 @@ export type {
   UseSorobanTokenBalanceOptions,
 } from "./useSorobanTokenBalance";
 
+export { useManageData } from "./useManageData";
+export type { UseManageDataOptions, UseManageDataReturn } from "./useManageData";
 export { useOperations } from "./useOperations";
 export type { UseOperationsOptions, UseOperationsReturn } from "./useOperations";
