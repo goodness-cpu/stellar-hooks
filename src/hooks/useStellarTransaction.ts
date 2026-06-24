@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { Horizon, TransactionBuilder, xdr } from "@stellar/stellar-sdk";
+import { Horizon, Transaction, TransactionBuilder, xdr } from "@stellar/stellar-sdk";
 import { useStellarContext } from "../context";
 import { useFreighter } from "./useFreighter";
 import { useTransaction } from "./useTransaction";
@@ -66,7 +67,7 @@ export function useStellarTransaction(options: UseStellarTransactionOptions = {}
       const feeBumpTx = TransactionBuilder.buildFeeBumpTransaction(
         sponsorAddress,
         feeBump.fee,
-        innerTxSigned as any,
+        innerTxSigned as Transaction,
         config.networkPassphrase
       );
       
